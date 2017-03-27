@@ -1,6 +1,6 @@
 *.swp
 venv/
-img/
+imgs/
 *.ipynb_checkpoints
 outputs/
 models/
