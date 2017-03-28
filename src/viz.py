@@ -32,7 +32,8 @@ smoothed = np.vstack(
 
 # create x axis
 epochs = 25  # TODO: read this dynamically
-x = np.linspace(1, epochs, smoothed.shape[0])
+truncated = args.naverage / 2 / epochs
+x = np.linspace(1 + truncated, epochs - truncated, smoothed.shape[0])
 
 fig, ax = plt.subplots()
 for i, series in enumerate(smoothed.T):
