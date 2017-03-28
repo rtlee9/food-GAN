@@ -12,6 +12,7 @@ import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
 from torch.autograd import Variable
+import pickle
 
 from PIL import ImageFile
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -199,6 +200,7 @@ def reset_grad():
     netG.zero_grad()
     netD.zero_grad()
 
+loss_history = []
 for epoch in range(opt.niter):
     for i, data in enumerate(dataloader, 0):
         for _ in range(5):
@@ -247,6 +249,7 @@ for epoch in range(opt.niter):
         print('[%d/%d][%d/%d]: Loss_D: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
               % (epoch, opt.niter, i, len(dataloader),
                  errD.data.mean(), D_x, D_G_z1, D_G_z2))
+        loss_history.append((errD.data.mean(), D_x, D_G_z1, D_G_z2))
         if i % 100 == 0:
             vutils.save_image(real_cpu,
                     '%s/real_samples.png' % opt.outf)
@@ -257,3 +260,6 @@ for epoch in range(opt.niter):
     # do checkpointing
     torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
     torch.save(netD.state_dict(), '%s/netD_epoch_%d.pth' % (opt.outf, epoch))
+
+with open(os.path.join(opt.outf, 'loss_history.pkl'), 'wb') as f:
+    pickle.dump(loss_history, f)
