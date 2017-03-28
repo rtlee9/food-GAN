@@ -247,16 +247,16 @@ for epoch in range(opt.niter):
         errG.backward()
         optimizerG.step()
 
-        print('[%d/%d][%d/%d]: Loss_D: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
-              % (epoch, opt.niter, i, len(dataloader),
-                 errD.data.mean(), D_x, D_G_z1, D_G_z2))
-        loss_history.append((errD.data.mean(), D_x, D_G_z1, D_G_z2))
         if i % opt.status == 0:
             vutils.save_image(real_cpu,
                     '%s/real_samples.png' % opt.outf)
             fake = netG(fixed_noise)
             vutils.save_image(fake.data,
                     '%s/fake_samples_epoch_%03d.png' % (opt.outf, epoch))
+            print('[%d/%d][%d/%d]: Loss_D: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
+                  % (epoch, opt.niter, i, len(dataloader),
+                     errD.data.mean(), D_x, D_G_z1, D_G_z2))
+            loss_history.append((errD.data.mean(), D_x, D_G_z1, D_G_z2))
 
     # do checkpointing
     torch.save(netG.state_dict(), '%s/netG_epoch_%d.pth' % (opt.outf, epoch))
