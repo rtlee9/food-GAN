@@ -35,4 +35,6 @@ Each model was trained for ~4 hours on an nVidia Tesla K80. The loss curve for t
 * Train and sample GAN: `python src/pytorch_DCGAN.py --dataset folder --dataroot imgs --outf outputs` or `python src/pytorch_WGAN.py --dataset folder --dataroot imgs --outf outputs`
 
 ## Next steps
-Incorporate recipe text (title, ingredients, and instructions) to generate images conditioned on recipe context.
+
+* Incorporate recipe text (title, ingredients, and instructions) to generate images conditioned on recipe context.
+* Filter out placeholder images prior to training
